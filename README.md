@@ -16,8 +16,12 @@ Traditional facial quality assessment focuses on whether a face is suitable for 
 
 ## Install Dependency
 
+This codebase relies heavily on [ImageReward](https://github.com/THUDM/ImageReward).
+Please follow the instruction in it.
+Besides, we introduce two addtional package.
+You can install them as following:
 ```
-pip install -r requirements.txt
+pip install batch-face image-reward
 ```
 
 ## Example Use
