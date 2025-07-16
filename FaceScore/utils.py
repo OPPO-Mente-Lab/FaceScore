@@ -22,9 +22,10 @@ def available_models() -> List[str]:
 
 def FaceScore_download(url: str, root: str):
     os.makedirs(root, exist_ok=True)
-    filename = os.path.basename(url)
+    filename = "FaceScore_model/" + os.path.basename(url)
     download_target = os.path.join(root, filename)
-    hf_hub_download(repo_id="AIGCer-OPPO/FaceScore", filename=filename, local_dir=root)
+    hf_hub_download(repo_id="OPPOer/FaceScore",
+                    filename=filename, local_dir=root)
     return download_target
 
 
@@ -48,27 +49,28 @@ def load(name: str = "FaceScore", device: Union[str, torch.device] = "cuda" if t
         The FaceScore model
     """
     if name in _MODELS:
-        model_path = FaceScore_download(_MODELS[name], download_root or os.path.expanduser("~/.cache/FaceScore"))
+        model_path = FaceScore_download(
+            _MODELS[name], download_root or os.path.expanduser("~/.cache/FaceScore"))
     elif os.path.isfile(name):
         model_path = name
     else:
-        raise RuntimeError(f"Model {name} not found; available models = {available_models()}")
+        raise RuntimeError(
+            f"Model {name} not found; available models = {available_models()}")
 
-    print('load checkpoint from %s'%model_path)
+    print('load checkpoint from %s' % model_path)
     state_dict = torch.load(model_path, map_location='cpu')
-    
+
     # med_config
     if med_config is None:
-        med_config = FaceScore_download("https://huggingface.co/AIGCer-OPPO/FaceScore/resolve/main/med_config.json", download_root or os.path.expanduser("~/.cache/FaceScore"))
-    
+        med_config = FaceScore_download("https://huggingface.co/AIGCer-OPPO/FaceScore/resolve/main/med_config.json",
+                                        download_root or os.path.expanduser("~/.cache/FaceScore"))
+
     model = ImageReward(device=device, med_config=med_config).to(device)
-    msg = model.load_state_dict(state_dict,strict=False)
+    msg = model.load_state_dict(state_dict, strict=False)
     print("checkpoint loaded")
     model.eval()
 
     return model
-
-
 
 
 def _download(url: str, root: str):
@@ -78,7 +80,8 @@ def _download(url: str, root: str):
     download_target = os.path.join(root, filename)
 
     if os.path.exists(download_target) and not os.path.isfile(download_target):
-        raise RuntimeError(f"{download_target} exists and is not a regular file")
+        raise RuntimeError(
+            f"{download_target} exists and is not a regular file")
 
     if os.path.isfile(download_target):
         return download_target

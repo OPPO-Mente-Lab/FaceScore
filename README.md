@@ -18,10 +18,11 @@ Traditional facial quality assessment focuses on whether a face is suitable for 
 
 This codebase relies heavily on [ImageReward](https://github.com/THUDM/ImageReward).
 Please follow the instruction in it.
-Besides, we introduce two addtional package.
-You can install them as following:
+
 ```
-pip install batch-face image-reward
+python3 -m venv .venv            # or python -m venv .venv
+source .venv/bin/activate        # or .venv\Scripts\activate on Windows
+pip install -r requirements.txt
 ```
 
 ## Example Use

@@ -1,0 +1,3 @@
+batch-face==1.5.2
+clip==1.0
+image-reward==1.5
